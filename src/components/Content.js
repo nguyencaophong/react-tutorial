@@ -7,8 +7,9 @@ function Content(){
     const[title,setTitle] = useState('');
     const[posts,setPosts] = useState([]);
     const [type,setType] = useState('posts');
+    const [goToTop,setGoToTop] =useState(false);
+
     useEffect(() =>{
-        console.log('Type change',type);
         fetch(`https://jsonplaceholder.typicode.com/${type}`)
         .then(value => {return value.json()})
         .then(data =>{
@@ -16,19 +17,21 @@ function Content(){
         })
     },[type]);
 
-    // useEffect(() => {
-    //     const hadleScroll = () => {
-    //         if(window.scrollY>=200){
-    //             setGoToTop(true);
-    //         }
-    //         else{
-    //             setGoToTop(false);
-    //         }
-    //     }
+    useEffect(() => {
+        const hadleScroll = () => {
+            // ** Trường hợp này setGotoTop(true) sẽ không set lại nhiều lần
+            // ** vì js có chế độ strickMode (so sánh ===) 
+            // ** không khác nhau thì component sẽ không re-render lại
+            window.scrollY>=200 ? setGoToTop(true) : setGoToTop(false);
+        }
 
-    //     window.addEventListener('scroll',hadleScroll)
-    // },[])
-
+        window.addEventListener('scroll',hadleScroll)
+        
+        // ** Cleanup function
+        return () =>{
+            window.removeEventListener('scroll',hadleScroll)
+        }
+    },[])
     return (
         <div>
             {tabs.map(tab => (
@@ -52,6 +55,15 @@ function Content(){
                     <li key={post.id}>{post.title || post.name}</li>
                 ))}
             </ul>
+            
+            {goToTop && (
+                <button style={{
+                    position:'fixed',
+                    right:20,
+                    bottom:20
+                }}
+                >Go to Top</button>
+            )}
         </div>
     )
 }
