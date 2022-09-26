@@ -1,33 +1,57 @@
-import {useEffect, useRef,useState} from 'react'
+import { useState, useMemo,useRef} from 'react'
 
 function App() {
-  const [count,setCount] = useState(60);
-  const timerId = useRef();
-  const preCount = useRef();
+  const [name,setName] = useState('');
+  const [price,setPrice] =useState('');
+  const [products,setProduct] = useState([]);
 
-  useEffect(() =>{
-    preCount.current = count;
-  },[count])
-
-  const handleStart = () =>{
-    timerId.current = setInterval(()=>{
-      setCount(pre=> pre - 1)
-    },1000)
-    console.log('Start => ',timerId.current);
+  const nameRef = useRef()
+  const handleSubmit = () =>{
+    setProduct([...products,{
+      name,
+      price: parseInt(price)
+    }])
+    setName('')
+    setPrice('')
+    nameRef.current.focus()
   }
+  
+  // const total = products.reduce((result,prod) => {
+  //   console.log('Tinh toan lai...');
+  //   return result + prod.price
+  // }, 0)
 
-  const handelStop = ()=>{
-    clearInterval(timerId.current);
-    console.log('Stop =>',timerId.current);
-  }
-
-  console.log(count, preCount.current);
+  const total = useMemo(()=>{
+    const result = products.reduce((value,prod) =>{
+      console.log('tinh toan lai...');
+      return value + prod.price;
+    },0)
+    return result;
+  },[products])
 
   return (
-    <div style={{padding:20}}>
-      <h1>{count}</h1>
-      <button onClick={handleStart}>Start</button>
-      <button onClick={handelStop}>Stop</button>
+    <div style={{padding:'20px 30px'}}>
+      <input 
+        ref={nameRef}
+        value={name}
+        placeholder='Enter name...'
+        onChange={e => setName(e.target.value)}
+      ></input>
+      <br />
+      <input
+        value={price}
+        placeholder='Enter price...'
+        onChange={e =>setPrice(e.target.value)}
+      ></input>
+      <br/>
+      <button onClick={handleSubmit}>Add</button>
+      <br />
+        Total: {total}
+        <ul>
+          {products.map((value,index) =>(
+            <li key={index}>{value.name} - {value.price}</li>
+          ))}
+        </ul>
     </div>
   )
 }
