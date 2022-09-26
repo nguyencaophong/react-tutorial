@@ -1,57 +1,39 @@
-import { useState, useMemo,useRef} from 'react'
+import { useReducer} from 'react'
+
+
+// ** Init state
+const initState = 0
+
+// ** Actions
+const UP_ACTION = 'up'
+const DOWN_ACTION = 'down'
+
+// ** Reducer 
+const Reducer = (state,action) =>{
+  switch (action) {
+    case UP_ACTION:
+      return state+1;
+    case DOWN_ACTION:
+      return state-1;
+    default:
+      throw new Error('Invalid action')
+  }
+}
 
 function App() {
-  const [name,setName] = useState('');
-  const [price,setPrice] =useState('');
-  const [products,setProduct] = useState([]);
-
-  const nameRef = useRef()
-  const handleSubmit = () =>{
-    setProduct([...products,{
-      name,
-      price: parseInt(price)
-    }])
-    setName('')
-    setPrice('')
-    nameRef.current.focus()
-  }
-  
-  // const total = products.reduce((result,prod) => {
-  //   console.log('Tinh toan lai...');
-  //   return result + prod.price
-  // }, 0)
-
-  const total = useMemo(()=>{
-    const result = products.reduce((value,prod) =>{
-      console.log('tinh toan lai...');
-      return value + prod.price;
-    },0)
-    return result;
-  },[products])
-
+  const [count,dispatch] = useReducer(Reducer,initState)
+  console.log('re-render');
   return (
     <div style={{padding:'20px 30px'}}>
-      <input 
-        ref={nameRef}
-        value={name}
-        placeholder='Enter name...'
-        onChange={e => setName(e.target.value)}
-      ></input>
-      <br />
-      <input
-        value={price}
-        placeholder='Enter price...'
-        onChange={e =>setPrice(e.target.value)}
-      ></input>
-      <br/>
-      <button onClick={handleSubmit}>Add</button>
-      <br />
-        Total: {total}
-        <ul>
-          {products.map((value,index) =>(
-            <li key={index}>{value.name} - {value.price}</li>
-          ))}
-        </ul>
+      <h1>{count}</h1>
+
+      <button 
+      onClick={() => dispatch(DOWN_ACTION)}
+      >DOWN</button>
+
+      <button 
+      onClick={() => dispatch(UP_ACTION)}
+      >UP</button>
     </div>
   )
 }
