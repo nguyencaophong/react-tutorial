@@ -1,0 +1,62 @@
+Events: Add / remove event listener
+Observer parttern: Subscribe / unsubscribe
+Closure
+Timers: setInterval, setTimeout, clearInterval, clearTimeout
+useState
+Mounted / unmounted
+====
+Call API
+
+/***
+Hooks
+HOC
+Render props
+
+
+/***
+1. Update DOM
+ - F8 blog title
+
+2. Call API
+ - Scroll
+ - Resize
+
+3. Listen DOM Events
+ - Remove listener / unsubscribe
+ - Clear Timers
+
+/***
+
+useEffect có 3 dạng chính:
+1. useEffect(callback)
+ - gọi callback mỗi khi component re-render
+ - gọi callback sau khi component thêm element vào DOM
+
+2. useEffect(callback,[])
+ - chỉ gọi callback 1 lần sau khi component Mounted
+
+3. useEffect(callback,[deps])
+ - callback sẽ được gọi mỗi khi deps thay đổi
+
+
+-----------------------------------
+Cả 3 TH: 
+Callback luôn được gọi sau khi component Mounted
+Cleanup func luôn được gọi trước khi component unmounted
+Cleanup func luôn được gọi trước khi callback được gọi (trừ khi mounted)
+
+
+/***
+useRef
+1. Lưu các giá trị qua một tham chiếu bên ngoài
+2. Function component
+
+/***
+1. Init state?
+2. Actions?
+3. Reducer
+4. Dispatch
+Note: 
++ useReducer(reducer,initState)
+ => reducer sẽ không được gọi ở lần mounted đầu tiên, chỉ set initState 
+ 
