@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 
-function PreviewAvater(){
+function Previewavatar(){
 
     const [avatar,setAvatar] = useState();
 
@@ -16,7 +16,6 @@ function PreviewAvater(){
     const handlePreviewAvatar = (e) =>{
         const file = e.target.files[0];
         file.preview = URL.createObjectURL(file);
-
         setAvatar(file)
     }
 
@@ -33,4 +32,4 @@ function PreviewAvater(){
 }
 
 
-export default PreviewAvater
+export default Previewavatar
