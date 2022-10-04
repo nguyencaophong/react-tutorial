@@ -1,12 +1,14 @@
 import {useContext} from 'react'
-import {ThemeContext} from './Provider/ThemeProvider'
-import './App.css'
+import {StoreContext} from './store'
 
 function App(){
-  const value = useContext(ThemeContext);
+
+  const [state,dispatch] = useContext(StoreContext);
+
+  console.log(state);
   return (
         <div style = {{padding:20}}>
-          <button onClick={value.handleClick}>Togger theme</button>
+            <h1>NGUYEN CAO PHONG </h1>
         </div>
   )
 }
